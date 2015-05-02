@@ -4,7 +4,7 @@ Cassandra Log to SQLite DB
 This script will consume a cassandra system.log and attempt to parse its rows into
 a SQLite database for analysis.
 
-Note: Multiline messages (e.g. exception trace information) are discarded.
+Note: Multiline messages (e.g. exception trace information) are discarded after the first line.
 
 ### Usage
 
