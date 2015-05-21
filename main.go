@@ -49,13 +49,24 @@ func main() {
 		);
 	`)
 
-	stmt, err := db.Prepare("INSERT INTO log (file, level, process, date, msg) values (?,?,?,?,?)")
+	//setup transaction (drastically improves sqlite performance)
+	transaction, err := db.Begin()
+	defer transaction.Commit()
+
+	//set statement
+	stmt, err := transaction.Prepare("INSERT INTO log (file, level, process, date, msg) values (?,?,?,?,?)")
+
 	if err != nil {
 		fail(err)
 	}
 
 	f := getFile(inFile)
 	defer f.Close()
+
+
+	if err != nil {
+		fail(err)
+	}
 
 	count := 0
 	scn := bufio.NewScanner(f)
